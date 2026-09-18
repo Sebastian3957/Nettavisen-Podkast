@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Her går det galt – Nettavisen</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      padding-bottom: 70px;
+    }
+
+    .page {
+      width: min(1350px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* Nettavisen-style logo */
+    .logo {
+      font-size: clamp(42px, 5vw, 58px);
+      font-weight: 900;
+      letter-spacing: -3px;
+      padding: 22px 0 30px;
+      line-height: 1;
+    }
+
+    /* Video area */
+    .video-wrapper {
+      width: 100%;
+      height: min(660px, 68vh);
+      min-height: 480px;
+      background: #242424;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    video {
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      display: block;
+      background: #111;
+      object-fit: contain;
+    }
+
+    .video-placeholder {
+      width: min(370px, 100%);
+      height: 100%;
+      background: linear-gradient(160deg, #343434, #171717);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .play-circle {
+      width: 76px;
+      height: 76px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 24px;
+    }
+
+    .play-circle::after {
+      content: "";
+      margin-left: 5px;
+      border-left: 20px solid #fff;
+      border-top: 13px solid transparent;
+      border-bottom: 13px solid transparent;
+    }
+
+    .placeholder-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .placeholder-subtitle {
+      color: #bbb;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .fullscreen {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 27px;
+      color: white;
+      opacity: .9;
+    }
+
+    /* Article information */
+    .article {
+      width: min(1050px, 100%);
+      margin: 32px auto 0;
+      position: relative;
+    }
+
+    .article-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 35px;
+      align-items: flex-start;
+    }
+
+    h1 {
+      font-size: clamp(30px, 3vw, 40px);
+      margin: 0 0 10px;
+      letter-spacing: -1.2px;
+      font-weight: 900;
+    }
+
+    .published {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      padding-top: 5px;
+    }
+
+    .intro {
+      margin: 0;
+      max-width: 760px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(19px, 2vw, 23px);
+      line-height: 1.35;
+    }
+
+    .copy {
+      margin-top: 25px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #777;
+      background: #eee;
+      color: #111;
+      padding: 11px 18px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .copy:hover {
+      background: #fff;
+    }
+
+    .body-text {
+      max-width: 760px;
+      margin-top: 38px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      line-height: 1.65;
+    }
+
+    .body-text p {
+      margin: 0 0 20px;
+    }
+
+    .credits {
+      color: #aaa;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      margin-top: 35px;
+    }
+
+    /* Optional local video picker */
+    .video-controls {
+      width: min(1050px, 100%);
+      margin: 15px auto 0;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .video-controls label {
+      cursor: pointer;
+    }
+
+    .video-controls input {
+      display: none;
+    }
+
+    .video-controls span {
+      border: 1px solid #555;
+      padding: 8px 12px;
+      display: inline-block;
+    }
+
+    @media (max-width: 700px) {
+      .page {
+        width: calc(100% - 20px);
+      }
+
+      .logo {
+        padding: 18px 0 22px;
+      }
+
+      .video-wrapper {
+        min-height: 420px;
+        height: 72vh;
+      }
+
+      .article {
+        margin-top: 24px;
+      }
+
+      .article-header {
+        display: block;
+      }
+
+      .published {
+        margin-top: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="logo">Nettavisen.</div>
+
+    <section class="video-wrapper">
+      <!--
+        Når dere har podcastvideoen:
+        1. Legg videofilen i samme mappe som index.html
+        2. Kall den "podcast.mp4"
+        3. Bytt placeholderen under med <video> (eksempel nederst i filen).
+      -->
+      <div class="video-placeholder" id="placeholder">
+        <div class="play-circle"></div>
+        <div class="placeholder-title">Podcastvideo</div>
+        <div class="placeholder-subtitle">
+          Legg inn deres egen video her.<br>
+          Du kan også teste med «Velg video» under.
+        </div>
+      </div>
+
+      <video id="video" controls style="display:none;"></video>
+      <div class="fullscreen">⛶</div>
+    </section>
+
+    <div class="video-controls">
+      <label>
+        <span>＋ Velg podcastvideo fra PC-en</span>
+        <input type="file" id="fileInput" accept="video/*">
+      </label>
+    </div>
+
+    <article class="article">
+      <div class="article-header">
+        <div>
+          <h1>Her går det galt</h1>
+          <p class="intro">
+            En podcast om <strong>sett inn temaet deres her</strong> – med meninger,
+            diskusjoner og aktuelle saker.
+          </p>
+        </div>
+
+        <div class="published">
+          Publisert 18.09.26 10:11
+        </div>
+      </div>
+
+      <button class="copy" onclick="copyLink()">🔗 &nbsp;Kopier</button>
+
+      <div class="body-text">
+        <p>
+          <strong>Dette er ingressen til artikkelen.</strong> Her kan dere skrive
+          et kort avsnitt som forklarer hva podcasten handler om og hvorfor saken
+          er aktuell.
+        </p>
+
+        <p>
+          Resten av artikkelteksten kan stå her dersom dere ønsker mer tekst
+          under videoen. Hvis oppgaven skal ha lite tekst, kan dere bare slette
+          dette avsnittet.
+        </p>
+
+        <div class="credits">
+          Foto/video: Deres navn &nbsp; | &nbsp; Tekst: Deres navn
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    const input = document.getElementById("fileInput");
+    const video = document.getElementById("video");
+    const placeholder = document.getElementById("placeholder");
+
+    input.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      video.src = URL.createObjectURL(file);
+      video.style.display = "block";
+      placeholder.style.display = "none";
+    });
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href);
+      const button = document.querySelector(".copy");
+      const oldText = button.innerHTML;
+      button.innerHTML = "✓  Kopiert";
+      setTimeout(() => button.innerHTML = oldText, 1500);
+    }
+  </script>
+</body>
+</html>
